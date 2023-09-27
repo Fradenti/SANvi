@@ -1,0 +1,18 @@
+Package: SANvi
+Type: Package
+Title: Fitting Common and Shared Atoms Nested Models via Variational Bayes
+Version: 0.0.1
+Date: 2023-09-26
+Author: Francesco Denti and Laura D'Angelo
+Maintainer: Francesco Denti <francescodenti.personal@gmail.com>
+Description: An R package for fitting the nested common and shared atoms models using variational Bayes approximate inference for fast computation.
+License: MIT + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+Imports: 
+    Rcpp,
+    matrixStats
+Depends:
+    scales,
+    RColorBrewer
+LinkingTo: Rcpp, RcppArmadillo
