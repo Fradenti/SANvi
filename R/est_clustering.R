@@ -10,7 +10,7 @@
 #'
 #' @return a list of class \code{clustering} containing 
 #' \itemize{
-#'   \item \code{obs_level}: a data frame containing the data values, their group indexes, the observational and distributional clustering assignments for each observation
+#'   \item \code{obs_level}: a data frame containing the data values, their group indexes, the observational and distributional clustering assignments for each observation.
 #'   \item \code{dis_level}: a vector with the distributional clustering assignment for each unit.
 #' }
 #' 

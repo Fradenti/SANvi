@@ -4,7 +4,7 @@
 \name{SANvi-package}
 \alias{SANvi}
 \alias{SANvi-package}
-\title{SANvi: Fitting common and shared atoms nested models via Variational Bayes}
+\title{SANvi: Fitting Common and Shared Atoms Nested Models via Variational Bayes}
 \description{
 An R package for fitting the nested common and shared atoms models using variational Bayes approximate inference for fast computation.
 }

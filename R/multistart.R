@@ -23,7 +23,7 @@
 #' @param maxL,maxK integers, the upper bounds for the observational and distributional clusters to fit, respectively.
 #' @param m0,tau0,lambda0,gamma0 hyperparameters on \eqn{(\mu, \sigma^2) \sim NIG(m_0, \tau_0, \lambda_0,\gamma_0)}.
 #' @param conc_hyperpar,conc_par,alpha_bar,beta_bar these values crucially depend on the chosen model. See \code{\link{variational_CAM}}, \code{\link{variational_fiSAN}}, \code{\link{variational_fSAN}} for proper explanations.
-#' @param epsilon the tolerance that drives the convergence criterion adopted as stopping rule
+#' @param epsilon the tolerance that drives the convergence criterion adopted as stopping rule.
 #' @param root common part of the random seeds used to control the initialization in order to provide reproducibility even in paralleled settings.
 #' @param maxSIM the maximum number of CAVI iteration to perform.
 #' @param warmstart logical, if \code{TRUE}, the observational means of the cluster atoms are initialized with a k-means algorithm.
@@ -328,12 +328,17 @@ print.multistart <- function(x, ...) {
 #'
 #' @examples
 #' \dontrun{
+#' # Generate example dataset
 #' set.seed(123)
 #' y <- c(rnorm(100),rnorm(100,5))
 #' g <- rep(1:2,rep(100,2))
+#'
+#' # Estimate multiple models via variational inference
 #' est <- SANvi:::variational_multistart(y, g, runs=5,
 #'                                       alpha_bar = 3, beta_bar = 3,
 #'                                       root=1234, warmstart = FALSE)
+#' 
+#' # Obtain best run
 #' extract_best(est)
 #' }
 extract_best <- function(object) {

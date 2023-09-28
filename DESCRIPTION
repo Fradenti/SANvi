@@ -16,3 +16,6 @@ Depends:
     scales,
     RColorBrewer
 LinkingTo: Rcpp, RcppArmadillo
+Suggests:
+    spelling
+Language: en-US

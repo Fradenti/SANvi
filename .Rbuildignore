@@ -1,6 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-\extra
 ^LICENSE\.md$
 ^\.github$
 ^README\.Rmd$
+^cran-comments\.md$
+^\.travis\.yml$
+^CRAN-SUBMISSION$
+^codecov\.yml$

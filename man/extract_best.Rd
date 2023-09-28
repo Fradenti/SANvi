@@ -17,11 +17,17 @@ A simple function to automatically extract the best run from a collection of fit
 }
 \examples{
 \dontrun{
+# Generate example dataset
 set.seed(123)
 y <- c(rnorm(100),rnorm(100,5))
 g <- rep(1:2,rep(100,2))
-est <- SANvi:::variational_multistart(y,g, runs=5,alpha1 = 3,alpha2 = 3,
-                                      root=1234,warmstart=FALSE)
+
+# Estimate multiple models via variational inference
+est <- SANvi:::variational_multistart(y, g, runs=5,
+                                      alpha_bar = 3, beta_bar = 3,
+                                      root=1234, warmstart = FALSE)
+
+# Obtain best run
 extract_best(est)
 }
 }

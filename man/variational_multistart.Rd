@@ -72,7 +72,7 @@ set.seed(123)
 y <- c(rnorm(100),rnorm(100,5))
 g <- rep(1:2,rep(100,2))
 
-# Estimste multiple models via variational inference
+# Estimate multiple models via variational inference
 est <- variational_multistart(y, g, runs=5)
 }
 }

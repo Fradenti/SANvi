@@ -12,7 +12,7 @@
 #'
 #' @param y Numerical vector of observations (required).
 #' @param group Numerical vector of the same length of \code{y}, indicating the group membership (required).
-#' @param maxL,maxK integers, the upper bounds for the observational and distributional clusters to fit, respectively
+#' @param maxL,maxK integers, the upper bounds for the observational and distributional clusters to fit, respectively.
 #' @param m0,tau0,lambda0,gamma0 Hyperparameters on \eqn{(\mu, \sigma^2) \sim NIG(m_0, \tau_0, \lambda_0,\gamma_0)}.
 #' @param conc_hyperpar,conc_par Vectors of values used for the concentration parameters of  of the stick-breaking representation for the distributional and observational DPs, respectively. 
 #' The following two arguments can be passed. Specifically,
