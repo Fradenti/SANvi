@@ -28,5 +28,17 @@ This is a basic example which shows you how to solve a common problem:
 library(SANvi)
 #> Loading required package: scales
 #> Loading required package: RColorBrewer
-## basic example code
+# Generate example data
+set.seed(1232)
+y <- c(rnorm(100),rnorm(100,5))
+g <- rep(1:2,rep(100,2))
+
+# Fitting fiSAN via variational inference
+est <- SANvi:::variational_fiSAN(y,g,verbose = FALSE)
+
+# Estimate posterior atoms and weights
+cl <- estimate_atoms_weights_vi(est)
+plot(cl)
 ```
+
+<img src="man/figures/README-example-1.png" width="100%" />
