@@ -36,7 +36,7 @@ variational_multistart(y, group, runs, cores = 1,
 
 \item{conc_hyperpar, conc_par, alpha_bar, beta_bar}{these values crucially depend on the chosen model. See \code{\link{variational_CAM}}, \code{\link{variational_fiSAN}}, \code{\link{variational_fSAN}} for proper explanations.}
 
-\item{epsilon}{the tolerance that drives the convergence criterion adopted as stopping rule}
+\item{epsilon}{the tolerance that drives the convergence criterion adopted as stopping rule.}
 
 \item{root}{common part of the random seeds used to control the initialization in order to provide reproducibility even in paralleled settings.}
 

@@ -6,6 +6,23 @@
 \alias{SANvi-package}
 \title{SANvi: Fitting Common and Shared Atoms Nested Models via Variational Bayes}
 \description{
-An R package for fitting the nested common and shared atoms models using variational Bayes approximate inference for fast computation.
+An R package for fitting the nested common and shared atoms models using variational Bayes approximate inference for fast computation. Specifically, the package implements the common atoms model (Denti et al., 2023), its finite version (D'Angelo et al., 2023), and a hybrid finite-infinite model. All models use Gaussian mixtures with a normal-inverse-gamma prior distribution on the parameters. Additional functions are provided to help analyzing the results of the fitting procedure.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/fradenti/SANvi}
+  \item Report bugs at \url{https://github.com/fradenti/SANvi/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Francesco Denti \email{francescodenti.personal@gmail.com} (\href{https://orcid.org/0000-0001-5034-7414}{ORCID}) [copyright holder]
+
+Authors:
+\itemize{
+  \item Laura D'Angelo \email{laura.dangelo@live.com} (\href{https://orcid.org/0000-0003-2978-4702}{ORCID})
+}
+
 }
 \keyword{internal}

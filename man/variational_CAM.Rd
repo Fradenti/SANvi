@@ -15,7 +15,7 @@ variational_CAM(y, group, maxL = 30, maxK = 20,
 
 \item{group}{Numerical vector of the same length of \code{y}, indicating the group membership (required).}
 
-\item{maxL, maxK}{integers, the upper bounds for the observational and distributional clusters to fit, respectively}
+\item{maxL, maxK}{integers, the upper bounds for the observational and distributional clusters to fit, respectively.}
 
 \item{m0, tau0, lambda0, gamma0}{Hyperparameters on \eqn{(\mu, \sigma^2) \sim NIG(m_0, \tau_0, \lambda_0,\gamma_0)}.}
 
