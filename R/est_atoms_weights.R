@@ -153,6 +153,7 @@ plot.vi_atoms_weights <- function(x,
 #' representing a threshold. If the posterior weight of a shared atom is below the threshold, the
 #' atom is not reported.
 #' @param ... ignored.
+#' 
 #' @export
 #' 
 print.vi_atoms_weights <- function(x, thr = 1e-2, ...){

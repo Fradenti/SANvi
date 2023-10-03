@@ -16,19 +16,6 @@ al., 2023), and a hybrid finite-infinite model (D’Angelo and Denti,
 prior distribution on the parameters. Additional functions are provided
 to help analyzing the results of the fitting procedure.
 
-D’Angelo, L., Canale, A., Yu, Z., Guindani, M. (2023). Bayesian
-nonparametric analysis for the detection of spikes in noisy calcium
-imaging data. Biometrics 79(2), 1370–1382. <doi:10.1111/biom.13626>.
-
-D’Angelo, L., and Denti, F. (2023+). A finite-infinite shared atoms
-nested model for the Bayesian analysis of large grouped data sets.
-Working paper 0–23.
-
-Denti, F., Camerlenghi, F., Guindani, M., Mira, A., 2023. A Common Atoms
-Model for the Bayesian Nonparametric Analysis of Nested Data. Journal of
-the American Statistical Association. 118(541), 405–416.
-<doi:10.1080/01621459.2021.1933499>.
-
 ## Installation
 
 You can install the development version of SANvi from
@@ -61,3 +48,17 @@ plot(cl)
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
+
+# References
+
+D’Angelo, L., Canale, A., Yu, Z., Guindani, M. (2023). Bayesian
+nonparametric analysis for the detection of spikes in noisy calcium
+imaging data. Biometrics 79(2), 1370–1382. .
+
+D’Angelo, L., and Denti, F. (2023+). A finite-infinite shared atoms
+nested model for the Bayesian analysis of large grouped data sets.
+Working paper 0–23.
+
+Denti, F., Camerlenghi, F., Guindani, M., Mira, A., 2023. A Common Atoms
+Model for the Bayesian Nonparametric Analysis of Nested Data. Journal of
+the American Statistical Association. 118(541), 405–416. .
