@@ -8,6 +8,8 @@
 #' 
 #' @param ... additional graphical parameters to be passed.
 #' 
+#' @return The function plots a summary of the fitted model.
+#' 
 #' @seealso \code{\link{print.SANvb}}, \code{\link{variational_CAM}}, 
 #' \code{\link{variational_fiSAN}}, \code{\link{variational_fSAN}}.
 #'

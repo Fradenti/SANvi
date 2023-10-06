@@ -6,6 +6,8 @@
 #' \code{\link{variational_fiSAN}}, \code{\link{variational_fSAN}}.
 #' @param ... further arguments passed to or from other methods.
 #' 
+#' @return The function prints a summary of the fitted model.
+#' 
 #' @export
 print.SANvb <- function(x, ... ){
   cat(paste("Variational inference results for", x$model ,"\n"))
