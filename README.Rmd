@@ -44,17 +44,25 @@ g <- rep(1:2,rep(100,2))
 
 # Fitting fiSAN via variational inference
 est <- SANvi:::variational_fiSAN(y,g,verbose = FALSE)
+plot(est)
+
+# Estimate clustering
+cl <- estimate_clustering_vi(est)
+cl
+plot(cl,palette_brewed = T)
+plot(cl,palette_brewed = T,type = "scatter")
 
 # Estimate posterior atoms and weights
-cl <- estimate_atoms_weights_vi(est)
-plot(cl)
+aw <- estimate_atoms_weights_vi(est)
+aw
+plot(aw)
 ```
 
 
 # References
 
-D’Angelo, L., Canale, A., Yu, Z., Guindani, M. (2023). Bayesian nonparametric analysis for the detection of spikes in noisy calcium imaging data. Biometrics 79(2), 1370–1382. \doi{10.1111/biom.13626}.
+D’Angelo, L., Canale, A., Yu, Z., Guindani, M. (2023). Bayesian nonparametric analysis for the detection of spikes in noisy calcium imaging data. *Biometrics* 79(2), 1370–1382. \doi{10.1111/biom.13626}
 
-D’Angelo, L., and Denti, F. (2023+). A finite-infinite shared atoms nested model for the Bayesian analysis of large grouped data sets. Working paper 0–23.
+D’Angelo, L., and Denti, F. (2023+). A finite-infinite shared atoms nested model for the Bayesian analysis of large grouped data sets. *Working paper*, 1–23.
 
-Denti, F., Camerlenghi, F., Guindani, M., Mira, A., 2023. A Common Atoms Model for the Bayesian Nonparametric Analysis of Nested Data. Journal of the American Statistical Association. 118(541), 405–416. \doi{10.1080/01621459.2021.1933499}.
+Denti, F., Camerlenghi, F., Guindani, M., Mira, A., 2023. A Common Atoms Model for the Bayesian Nonparametric Analysis of Nested Data. *Journal of the American Statistical Association*. 118(541), 405–416. \doi{10.1080/01621459.2021.1933499}
