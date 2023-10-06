@@ -1,3 +1,4 @@
-# SANvi 0.0.1
+# SANple 0.1.0
 
-* Initial CRAN submission.
+* Submitted to CRAN
+* Released to the public the first official version
