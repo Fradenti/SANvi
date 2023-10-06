@@ -37,7 +37,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Generate example data
 #' set.seed(123)
 #' y <- c(rnorm(100),rnorm(100,5))
@@ -327,7 +327,7 @@ print.multistart <- function(x, ...) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Generate example dataset
 #' set.seed(123)
 #' y <- c(rnorm(100),rnorm(100,5))

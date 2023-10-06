@@ -48,7 +48,7 @@ This function estimates posterior clustering assignments based on posterior vari
 obtained from one of the model implemented in SANvi.
 }
 \examples{
-\dontrun{
+\donttest{
 # Generate example data
 set.seed(123)
 y <- c(rnorm(100),rnorm(100,-5),rnorm(100,5),rnorm(100),
@@ -58,7 +58,7 @@ g <- rep(1:4,rep(200,4))
 # Fitting fiSAN via variational inference
 est <- SANvi::variational_fiSAN(y,g,verbose = FALSE)
 
-Estimate clustering assignments
+# Estimate clustering assignments
 estimate_clustering_vi(est)
 }
 }

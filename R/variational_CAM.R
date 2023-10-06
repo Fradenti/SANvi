@@ -117,11 +117,12 @@
 #'
 #'
 #'@examples
+#' \donttest{
 #' set.seed(123)
 #' y <- c(rnorm(100),rnorm(100,5))
 #' g <- rep(1:2,rep(100,2))
 #' est <- SANvi:::variational_CAM(y,g,verbose = FALSE,epsilon = 1e-2)
-#'
+#' }
 variational_CAM = function(y,
                   group,
                   maxL = 30,

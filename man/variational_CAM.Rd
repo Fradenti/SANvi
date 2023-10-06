@@ -117,11 +117,12 @@ The clustering of observations (observational clustering) is provided by the all
 The distribution of the probabilities is \eqn{ \{\omega_{l,k}\}_{l=1}^{\infty} \sim GEM(\beta)} for all \eqn{k = 1,2,\dots}
 }
 \examples{
+\donttest{
 set.seed(123)
 y <- c(rnorm(100),rnorm(100,5))
 g <- rep(1:2,rep(100,2))
 est <- SANvi:::variational_CAM(y,g,verbose = FALSE,epsilon = 1e-2)
-
+}
 }
 \references{
 Denti, F., Camerlenghi, F., Guindani, M., and Mira, A. (2023). A Common Atoms Model for the Bayesian Nonparametric Analysis of Nested Data. 

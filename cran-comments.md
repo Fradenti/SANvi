@@ -1,4 +1,22 @@
-Please note this is the first submission of this package to CRAN.
+Please note this is the a resubmission of this package to CRAN.
+
+At the first submission, we were notified the following NOTEs:
+
+* checking CRAN incoming feasibility ... [3s/4s] NOTE
+  Maintainer: ‘Francesco Denti <francescodenti.personal@gmail.com>’
+
+  New submission
+
+and
+
+* checking examples ... [5s/1s] NOTE
+Examples with CPU time > 2.5 times elapsed time
+                 user system elapsed ratio
+variational_CAM 1.017  0.012   0.128 8.039
+
+To fix this note, we enclosed all the potentially lengthy examples in `\donttest{}`.
+
+We now report, for the fixed version of the package, the following
 
 ## R CMD check results
 
@@ -8,7 +26,7 @@ Please note this is the first submission of this package to CRAN.
 
 0 errors | 0 warnings | 1 note
 
-> checking CRAN incoming feasibility ... NOTE
+* checking CRAN incoming feasibility ... NOTE
   Maintainer: ‘Francesco Denti <francescodenti.personal@gmail.com>’
   
   New submission

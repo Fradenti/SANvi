@@ -16,7 +16,7 @@ the single best run, an object of class \code{SANvb}.
 A simple function to automatically extract the best run from a collection of fitted variational models.
 }
 \examples{
-\dontrun{
+\donttest{
 # Generate example dataset
 set.seed(123)
 y <- c(rnorm(100),rnorm(100,5))

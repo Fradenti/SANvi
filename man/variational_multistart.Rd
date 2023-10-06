@@ -66,7 +66,7 @@ of the functions \code{variational_CAM}, \code{variational_fiSAN}, and \code{var
 For the details of the single models, see their specific documentations: \code{\link{variational_CAM}}, \code{\link{variational_fiSAN}}, and \code{\link{variational_fSAN}}.
 }
 \examples{
-\dontrun{
+\donttest{
 # Generate example data
 set.seed(123)
 y <- c(rnorm(100),rnorm(100,5))

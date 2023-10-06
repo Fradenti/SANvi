@@ -20,7 +20,7 @@
 #'
 #' 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Generate example data
 #' set.seed(123)
 #' y <- c(rnorm(100),rnorm(100,-5),rnorm(100,5),rnorm(100),
@@ -30,7 +30,7 @@
 #' # Fitting fiSAN via variational inference
 #' est <- SANvi::variational_fiSAN(y,g,verbose = FALSE)
 #' 
-#' Estimate clustering assignments
+#' # Estimate clustering assignments
 #' estimate_clustering_vi(est)
 #' }
 estimate_clustering_vi  <- function(output, 

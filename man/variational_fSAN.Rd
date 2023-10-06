@@ -108,11 +108,13 @@ The distribution of the probabilities is \eqn{(\omega_{1,k},\dots,\omega_{L,k})\
 Here, the dimension \eqn{L} is fixed.
 }
 \examples{
+\donttest{
 set.seed(123)
-y <- c(rnorm(100),rnorm(100,5))
-g <- rep(1:2,rep(100,2))
-est <- SANvi:::variational_fSAN(y, g, verbose = FALSE,epsilon = 1e-2)
-
+y <- c(rnorm(50),rnorm(50,5))
+g <- rep(1:2,rep(50,2))
+est <- SANvi:::variational_fSAN(y, g, verbose = FALSE,epsilon = 1e-2, 
+                                 maxL=15, maxK=10 )
+}
 }
 \references{
 D’Angelo, L., Canale, A., Yu, Z., and Guindani, M. (2023). 
