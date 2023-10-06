@@ -121,8 +121,8 @@ variational_fSAN <- function(y,
                     warmstart = TRUE,
                     verbose = FALSE){
 
-  L = maxL
-  K = maxK
+  L <- maxL
+  K <- maxK
 
 
   if(length(y) != length(group)){
@@ -130,15 +130,15 @@ variational_fSAN <- function(y,
   }
 
 
-  Nj = tapply(y,group, length)
-  J  = max(group)
+  Nj <- tapply(y,group, length)
+  J  <- max(group)
 
-  if(is.null(seed)){seed = round(stats::runif(1,1,10000))}
+  if(is.null(seed)){seed <- round(stats::runif(1,1,10000))}
   # random init
   set.seed(seed)
 
 
-  params = list(y = y,
+  params <- list(y = y,
                 group = group,
                 Nj = Nj,
                 J = J,
@@ -189,8 +189,8 @@ variational_fSAN <- function(y,
 
 
 
-  start = Sys.time()
-  results = main_vb_fSAN_cpp(
+  start <- Sys.time()
+  results <- main_vb_fSAN_cpp(
     Y_grouped = Y_grouped,
     XI_ijl = XI_ijl,
     L = L,
@@ -212,14 +212,14 @@ variational_fSAN <- function(y,
     maxSIM = maxSIM,
     verbose = verbose
   )
-  end = Sys.time()
+  end <- Sys.time()
 
   output <- list("model" = "fSAN",
                  "params" = params,
                  "sim"= results,
                  "time" = end - start)
   
-  class(output$sim) = "fSANvi"
+  class(output$sim) <- "fSANvi"
   structure(output, class = c("SANvb",class(output)))
   
 }

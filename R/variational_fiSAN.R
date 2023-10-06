@@ -135,22 +135,22 @@ variational_fiSAN <- function(y,
                     verbose = FALSE){
 
 
-  L = maxL
-  K = maxK
+  L <- maxL
+  K <- maxK
 
   if(length(y) != length(group)){
     stop("The number of observations and groups must match")
   }
 
-  Nj = tapply(y,group, length)
-  J  = max(group)
+  Nj <- tapply(y,group, length)
+  J  <- max(group)
 
-  if(is.null(seed)){seed = round(stats::runif(1,1,10000))}
+  if(is.null(seed)){seed <- round(stats::runif(1,1,10000))}
   # random init
   set.seed(seed)
 
 
-  params = list(y = y,
+  params <- list(y = y,
                 group = group,
                 Nj = Nj,
                 J = J,
@@ -231,8 +231,8 @@ variational_fiSAN <- function(y,
 
   if(random_conc){
     
-    start = Sys.time()
-    results = main_vb_fiSAN_CP_cpp(
+    start <- Sys.time()
+    results <- main_vb_fiSAN_CP_cpp(
       Y_grouped = Y_grouped,
       XI_ijl = XI_ijl,
       L = L,
@@ -254,12 +254,12 @@ variational_fiSAN <- function(y,
       maxSIM = maxSIM,
       verbose = verbose
     )
-    end = Sys.time()
+    end <- Sys.time()
 
   }else{
 
-    start = Sys.time()
-    results = main_vb_fiSAN_cpp(
+    start <- Sys.time()
+    results <- main_vb_fiSAN_cpp(
       Y_grouped = Y_grouped,
       XI_ijl = XI_ijl,
       L = L,
@@ -282,7 +282,7 @@ variational_fiSAN <- function(y,
       maxSIM = maxSIM,
       verbose = verbose
     )
-    end = Sys.time()
+    end <- Sys.time()
 
   }
   output <- list("model" = "fiSAN",
@@ -290,7 +290,7 @@ variational_fiSAN <- function(y,
                  "sim"= results,
                  "time" = end - start)
   
-  class(output$sim) = "fiSANvi"
+  class(output$sim) <- "fiSANvi"
   structure(output, class = c("SANvb",class(output)))
   
 }

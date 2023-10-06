@@ -12,8 +12,8 @@ post_sb_weight <- function(alk, blk){
   
   for(k in 1:K){
     
-    p2 = blk[,k]/(alk[,k]+blk[,k])
-    p2 = c(1,p2[-L])
+    p2 <- blk[,k]/(alk[,k]+blk[,k])
+    p2 <- c(1,p2[-L])
     
     logomega_post[,k] <- log(alk[,k]/(alk[,k]+blk[,k])) + cumsum(log(p2))
     

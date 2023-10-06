@@ -53,7 +53,7 @@ estimate_clustering_vi  <- function(output,
                                      INDEX = rep(dist_clust,output$params$Nj),
                                      median))[dist_clust])
   }
-  D = data.frame(Y  = output$params$y,
+  D <- data.frame(Y  = output$params$y,
                  G  = output$params$group,
                  OC = obs_clust,
                  DC = rep(dist_clust,output$params$Nj))

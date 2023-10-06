@@ -46,7 +46,7 @@
 #' # Estimate multiple models via variational inference
 #' est <- variational_multistart(y, g, runs=5)
 #' }
-variational_multistart = function(y,
+variational_multistart <- function(y,
                             group,
                             runs,
                             cores = 1,
@@ -101,13 +101,13 @@ variational_multistart = function(y,
         RESULTS[[i]] <- tmp_fiSAN(i)
       
     } else{
-      RESULTS = parallel::mclapply(1:runs, function(i)
+      RESULTS <- parallel::mclapply(1:runs, function(i)
         tmp_fiSAN(i), mc.cores = cores)
       
     }
     
 
-  }else if(model =="fiSAN"){
+  }else if(model =="fSAN"){
     tmp_fSAN <- function(i) {
       variational_fSAN(
         y = y,
@@ -135,7 +135,7 @@ variational_multistart = function(y,
         RESULTS[[i]] <- tmp_fSAN(i)
       
     } else{
-      RESULTS = parallel::mclapply(1:runs, function(i)
+      RESULTS <- parallel::mclapply(1:runs, function(i)
         tmp_fSAN(i), mc.cores = cores)
       
     }
@@ -170,7 +170,7 @@ variational_multistart = function(y,
       RESULTS[[i]] <- tmp_cam(i)
     
   } else{
-    RESULTS = parallel::mclapply(1:runs, function(i)
+    RESULTS <- parallel::mclapply(1:runs, function(i)
       tmp_cam(i), mc.cores = cores)
     
   }
@@ -202,7 +202,7 @@ plot.multistart <- function(x,
   type <- match.arg(type)
   
   
-  summa = do.call(rbind,
+  summa <- do.call(rbind,
                   lapply(x, function(x)
                     c(
                       min = min(x$sim$Elbo_val),
@@ -302,7 +302,7 @@ plot.multistart <- function(x,
 #' @export
 #'
 print.multistart <- function(x, ...) {
-  summa = do.call(rbind,
+  summa <- do.call(rbind,
                   lapply(x,  function(q)
                     c(
                       min = min(q$sim$Elbo_val),

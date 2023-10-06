@@ -34,7 +34,7 @@ estimate_atoms_weights_vi <- function(output){
     
   }else   if(class(output$sim)[1] == "fSANvi" | 
              class(output$sim)[1] == "fiSANvi"){
-    exp_weights = apply(output$sim$beta_bar_lk,2,function(x) x/sum(x))
+    exp_weights <- apply(output$sim$beta_bar_lk,2,function(x) x/sum(x))
   }else{
     stop("Provide valid variational inference output")
   }
@@ -52,10 +52,14 @@ estimate_atoms_weights_vi <- function(output){
                   post_var  = exp_sigma2[ind_row],
                   post_weigths_DC = W)
   
-  wmeans <- apply(W,2,function(x) sum(x*D$post_mean))
-  D <- D[order(D$post_mean),c(1:2,order(wmeans)+2)]
-  colnames(D)[-c(1:2)] <- paste0("post_weigths_DC",1:(ncol(D)-2))
   
+  if(is.null(nrow(W))){
+    colnames(D)[-c(1:2)] <- paste0("post_weigths_DC",1:(ncol(D)-2))
+  }else{
+    wmeans <- apply(W,2,function(x) sum(x*D$post_mean))
+    D <- D[order(D$post_mean),c(1:2,order(wmeans)+2)]
+    colnames(D)[-c(1:2)] <- paste0("post_weigths_DC",1:(ncol(D)-2))
+  }
   structure(D,class = c("vi_atoms_weights",class(D)))
   
 }
@@ -83,7 +87,7 @@ plot.vi_atoms_weights <- function(x,
   }
   if(max(DC_num) > (ncol(x)-2) ){
     stop(paste0("There are less estimated DCs than requested.\n",
-                "Please provide a number for DC_num between 1 and ", (ncol(x)-2) ))
+                "Please provide a number for DC_num between 1 and ", (ncol(x)-2),"." ))
   }
   
   atoms   <-  x[, 1:2]
@@ -102,9 +106,9 @@ plot.vi_atoms_weights <- function(x,
   if(length(DC_num) == ncol(x)-2){
     main_title <- paste0("All distributional clusters")
   }else if(length(DC_num) > 8){
-    main_title = paste0("Distributional clusters")
+    main_title <- paste0("Distributional clusters")
   }else{
-    main_title = paste0("Distributional clusters # ", paste(DC_num, collapse = ", "))
+    main_title <- paste0("Distributional clusters # ", paste(DC_num, collapse = ", "))
   }
   
   plot(
@@ -164,14 +168,19 @@ print.vi_atoms_weights <- function(x, thr = 1e-2, ...){
   }
   n_g <- length(rows)
   
-  cat(paste("Atoms with posterior weight >",thr,"\n"))
+  cat(paste("Atoms with posterior weight >", thr, "\n"))
   cat("----------------------------------\n")
-  cat(paste("Number of detected DCs:",n_g,"\n"))
+  cat(paste("Number of detected DCs:", n_g, "\n"))
   cat("----------------------------------\n")
   
   for(j in 1:n_g){
     
     cat(paste("\nDistributional cluster #",j,"\n"))
+    
+    if(length(rows[[j]])==0){
+      cat(paste0("No atom has weight above the selected threshold of ",thr,"\n"))
+      next()
+    }
     Dsubj <- round(x[rows[[j]],c(1,2,j+2)],3)
     
     if(is.null(nrow(Dsubj))){
