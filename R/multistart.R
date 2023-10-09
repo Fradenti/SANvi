@@ -273,7 +273,9 @@ plot.multistart <- function(x,
       
     }
   } else if (type == "time") {
-    oldpar <- graphics::par()$mfrow
+    old.par <- graphics::par(no.readonly = TRUE)
+    on.exit(graphics::par(old.par))    
+    
     graphics::par(mfrow = c(2, 1))
     graphics::hist(summa[, 4],
          xlab = "Seconds",
@@ -287,7 +289,6 @@ plot.multistart <- function(x,
       cex = 3, ...
     )
     graphics::abline(stats::lm(summa[, 4] ~ summa[, 3]), col = 2)
-    on.exit(graphics::par(mfrow=oldpar))
   }
   
 }
@@ -334,9 +335,9 @@ print.multistart <- function(x, ...) {
 #' g <- rep(1:2,rep(100,2))
 #'
 #' # Estimate multiple models via variational inference
-#' est <- SANvi:::variational_multistart(y, g, runs=5,
-#'                                       alpha_bar = 3, beta_bar = 3,
-#'                                       root=1234, warmstart = FALSE)
+#' est <- variational_multistart(y, g, runs=5,
+#'                               alpha_bar = 3, beta_bar = 3,
+#'                               root=1234, warmstart = FALSE)
 #' 
 #' # Obtain best run
 #' extract_best(est)

@@ -116,7 +116,7 @@
 #' set.seed(1234)
 #' y <- c( rnorm(100) ,rnorm(100,5))
 #' g <- rep( 1:2, rep(100,2))
-#' est <- SANvi:::variational_fiSAN( y, g, verbose = FALSE,epsilon = 1e-2)
+#' est <- variational_fiSAN( y, g, verbose = FALSE,epsilon = 1e-2)
 #'}
 variational_fiSAN <- function(y, 
                     group,

@@ -2,7 +2,7 @@ Package: SANvi
 Type: Package
 Title: Fitting Common and Shared Atoms Nested Models via Variational Bayes
 Version: 0.1.0
-Date: 2023-09-26
+Date: 2023-10-09
 Authors@R: c(
     person("Francesco", "Denti", ,"francescodenti.personal@gmail.com", 
     role = c("aut", "cre", "cph"),
@@ -14,7 +14,11 @@ Authors@R: c(
 Maintainer: Francesco Denti <francescodenti.personal@gmail.com>
 URL: https://github.com/fradenti/SANvi
 BugReports: https://github.com/fradenti/SANvi/issues
-Description: An R package for fitting the nested common and shared atoms models using variational Bayes approximate inference for fast computation. Specifically, the package implements the common atoms model (Denti et al., 2023), its finite version (D'Angelo et al., 2023), and a hybrid finite-infinite model. All models use Gaussian mixtures with a normal-inverse-gamma prior distribution on the parameters. Additional functions are provided to help analyze the results of the fitting procedure.
+Description: An efficient tool for fitting the nested common and shared atoms models using variational Bayes approximate inference for fast computation. Specifically, the package implements the common atoms model (Denti et al., 2023), its finite version (D'Angelo et al., 2023), and a hybrid finite-infinite model. 
+            All models use Gaussian mixtures with a normal-inverse-gamma prior distribution on the parameters. Additional functions are provided to help analyze the results of the fitting procedure.  
+            References:   
+            Denti, Camerlenghi, Guindani, Mira (2023) <doi:10.1080/01621459.2021.1933499>,    
+            D’Angelo, Canale, Yu, Guindani (2023) <doi:10.1111/biom.13626>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.2.3

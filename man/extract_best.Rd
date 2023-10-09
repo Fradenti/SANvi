@@ -23,9 +23,9 @@ y <- c(rnorm(100),rnorm(100,5))
 g <- rep(1:2,rep(100,2))
 
 # Estimate multiple models via variational inference
-est <- SANvi:::variational_multistart(y, g, runs=5,
-                                      alpha_bar = 3, beta_bar = 3,
-                                      root=1234, warmstart = FALSE)
+est <- variational_multistart(y, g, runs=5,
+                              alpha_bar = 3, beta_bar = 3,
+                              root=1234, warmstart = FALSE)
 
 # Obtain best run
 extract_best(est)

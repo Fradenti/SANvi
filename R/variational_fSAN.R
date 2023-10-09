@@ -104,8 +104,8 @@
 #' set.seed(123)
 #' y <- c(rnorm(50),rnorm(50,5))
 #' g <- rep(1:2,rep(50,2))
-#' est <- SANvi:::variational_fSAN(y, g, verbose = FALSE,epsilon = 1e-2, 
-#'                                  maxL=15, maxK=10 )
+#' est <- variational_fSAN(y, g, verbose = FALSE,
+#'                         epsilon = 1e-2, maxL=15, maxK=10)
 #'}
 variational_fSAN <- function(y, 
                     group,

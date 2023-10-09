@@ -184,7 +184,8 @@ plot.vi_clustering <- function(x,
       xlab = "group"
     )
   }else{
-    oldpar <- graphics::par()$mfrow
+    old.par <- graphics::par(no.readonly = TRUE)
+    on.exit(graphics::par(old.par))    
     
     graphics::par(mfrow=c(1,2))
     plot(suby ~ jitter(subg),
@@ -201,7 +202,6 @@ plot.vi_clustering <- function(x,
          ylab = "y",
          main = paste0("Observations colored by OC\n",main_title)
     )
-    on.exit(graphics::par(mfrow=oldpar))
   }
 }
 

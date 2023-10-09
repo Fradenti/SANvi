@@ -121,7 +121,7 @@ The distribution of the probabilities is \eqn{ \{\omega_{l,k}\}_{l=1}^{\infty} \
 set.seed(123)
 y <- c(rnorm(100),rnorm(100,5))
 g <- rep(1:2,rep(100,2))
-est <- SANvi:::variational_CAM(y,g,verbose = FALSE,epsilon = 1e-2)
+est <- variational_CAM(y, g, verbose = FALSE,epsilon = 1e-2)
 }
 }
 \references{

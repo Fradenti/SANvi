@@ -16,7 +16,8 @@
 #' @export
 plot.SANvb <- function(x, ...){
   
-  oldpar <- graphics::par()$mfrow
+  old.par <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(old.par))    
   
   graphics::par(mfrow= c(1,2))
   plot(x$sim$Elbo_val,
@@ -30,7 +31,6 @@ plot.SANvb <- function(x, ...){
   boxplot(x$params$y~x$params$group,col=scales::alpha(cl_col, .5), xlab="Group",ylab="y",
           main = paste(x$model, "- DC and posterior means"))
   abline(h = x$sim$theta_l[unique(cl_row),1],col=4,lty=2)
-  on.exit(graphics::par(mfrow = oldpar))
   
 }
 
