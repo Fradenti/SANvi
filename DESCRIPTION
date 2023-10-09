@@ -1,6 +1,6 @@
 Package: SANvi
 Type: Package
-Title: Fitting Common and Shared Atoms Nested Models via Variational Bayes
+Title: Fitting Shared Atoms Nested Models via Variational Bayes
 Version: 0.1.0
 Date: 2023-10-09
 Authors@R: c(
