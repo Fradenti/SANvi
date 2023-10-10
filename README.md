@@ -6,6 +6,13 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/Fradenti/SANvi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Fradenti/SANvi/actions/workflows/R-CMD-check.yaml)
+[![CRAN](https://www.r-pkg.org/badges/version/SANvi)](https://cran.r-project.org/package=SANvi)
+[![Last
+Commit](https://img.shields.io/github/last-commit/fradenti/SANvi)](https://github.com/fradenti/SANvi)
+[![Downloads
+(monthly)](https://cranlogs.r-pkg.org/badges/SANvi?color=brightgreen)](https://www.r-pkg.org/pkg/SANvi)
+[![Downloads
+(total)](https://cranlogs.r-pkg.org/badges/grand-total/SANvi?color=brightgreen)](https://www.r-pkg.org/pkg/SANvi)
 <!-- badges: end -->
 
 The goal of SANvi is to estimate Bayesian nested mixture models via
