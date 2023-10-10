@@ -13,11 +13,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-# SANvi v0.1.0 <img src="man/figures/sanvi_draft.png" align="right" width="120" />
+# SANvi v0.1.0.9000 <img src="man/figures/sanvi_draft.png" align="right" width="120" />
 
 
 <!-- badges: start -->
- [![R-CMD-check](https://github.com/Fradenti/SANvi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Fradenti/SANvi/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/Fradenti/SANvi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Fradenti/SANvi/actions/workflows/R-CMD-check.yaml)
 [![CRAN](https://www.r-pkg.org/badges/version/SANvi)](https://cran.r-project.org/package=SANvi)
 [![Last Commit](https://img.shields.io/github/last-commit/fradenti/SANvi)](https://github.com/fradenti/SANvi)
 [![Downloads (monthly)](https://cranlogs.r-pkg.org/badges/SANvi?color=brightgreen)](https://www.r-pkg.org/pkg/SANvi)
