@@ -191,7 +191,7 @@ Rcpp::List main_vb_cam_CP_cpp(arma::field<arma::colvec> Y_grouped,
       if(verbose){
       Rcpp::Rcout << "Iteration #" << ii+2 << " - Elbo increment: " << (ELBO_val[ii]-ELBO_val[ii-1]) << "\n";
       }
-      if(abs(ELBO_val[ii]-ELBO_val[ii-1]) < epsilon ) {
+      if(fabs(ELBO_val[ii]-ELBO_val[ii-1]) < epsilon ) {
         if(verbose){
           Rcpp::Rcout << "Final Elbo value: " << (ELBO_val[ii]) << "\n";
         }

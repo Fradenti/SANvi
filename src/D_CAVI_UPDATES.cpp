@@ -315,7 +315,7 @@ arma::colvec Update_s_concentration_par(arma::colvec a_tilde_Vk,
 
   }
 
-  upd_par[0] = conc_hyper[0] + K - 1 ;
+  upd_par[0] = conc_hyper[0] + K - 1 ; 
   upd_par[1] = conc_hyper[1] - arma::accu(E_log_beta(b_tilde_Vk,a_tilde_Vk));
   upd_par[2] = conc_hyper[2] + K * (L - 1);
   upd_par[3] = conc_hyper[3] - arma::accu(R);

@@ -19,7 +19,7 @@ The goal of SANvi is to estimate Bayesian nested mixture models via
 variational Bayes methods. Specifically, the package implements the
 common atoms model (Denti et al., 2023), its finite version (D’Angelo et
 al., 2023), and a hybrid finite-infinite model (D’Angelo and Denti,
-2023+). All models use Gaussian mixtures with a normal-inverse-gamma
+2024+). All models use Gaussian mixtures with a normal-inverse-gamma
 prior distribution on the parameters. Additional functions are provided
 to help analyzing the results of the fitting procedure.
 
@@ -99,7 +99,7 @@ D’Angelo, L., Canale, A., Yu, Z., Guindani, M. (2023). Bayesian
 nonparametric analysis for the detection of spikes in noisy calcium
 imaging data. *Biometrics* 79(2), 1370–1382.
 
-D’Angelo, L., and Denti, F. (2023+). A finite-infinite shared atoms
+D’Angelo, L., and Denti, F. (2024+). A finite-infinite shared atoms
 nested model for the Bayesian analysis of large grouped data sets.
 *Working paper*, 1–23.
 
