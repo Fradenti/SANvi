@@ -101,7 +101,7 @@ imaging data. *Biometrics* 79(2), 1370–1382.
 
 D’Angelo, L., and Denti, F. (2024+). A finite-infinite shared atoms
 nested model for the Bayesian analysis of large grouped data sets.
-*Working paper*, 1–23.
+*Working paper*, 1–34.
 
 Denti, F., Camerlenghi, F., Guindani, M., Mira, A., 2023. A Common Atoms
 Model for the Bayesian Nonparametric Analysis of Nested Data. *Journal

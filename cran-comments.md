@@ -1,5 +1,12 @@
+# SANvi 0.1.1
 
-We now report, for the fixed version of the package, the following
+In this release
+
+- we changed `abs()` to `fabs()` in `.cpp` files, resolving the following
+  `warning: using integer absolute value function 'abs' when argument is of floating point type` highlighted at `https://cran.rstudio.com//web/checks/check_results_SANvi.html` to avoid removal from CRAN
+- we updated the GitHub actions for package checks
+
+We now report, for the updated version of the package, the following
 
 ## R CMD check results
 
@@ -21,12 +28,7 @@ However, the links work when building the documentation.
   
 - Running `devtools::check_win_devel()` produces
 
-0 errors | 0 warnings | 1 note
-
-* checking CRAN incoming feasibility ... NOTE
-  Maintainer: 'Francesco Denti <francescodenti.personal@gmail.com>'
-  
-  New submission
+0 errors | 0 warnings | 0 note
 
 - Finally, in its current state, this package also passes all the standard checks performed via *GitHub actions*.
 

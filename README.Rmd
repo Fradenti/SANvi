@@ -68,6 +68,6 @@ plot(aw)
 
 D’Angelo, L., Canale, A., Yu, Z., Guindani, M. (2023). Bayesian nonparametric analysis for the detection of spikes in noisy calcium imaging data. *Biometrics* 79(2), 1370–1382. \doi{10.1111/biom.13626}
 
-D’Angelo, L., and Denti, F. (2024+). A finite-infinite shared atoms nested model for the Bayesian analysis of large grouped data sets. *Working paper*, 1–23.
+D’Angelo, L., and Denti, F. (2024+). A finite-infinite shared atoms nested model for the Bayesian analysis of large grouped data sets. *Working paper*, 1–34.
 
 Denti, F., Camerlenghi, F., Guindani, M., Mira, A., 2023. A Common Atoms Model for the Bayesian Nonparametric Analysis of Nested Data. *Journal of the American Statistical Association*. 118(541), 405–416. \doi{10.1080/01621459.2021.1933499}
