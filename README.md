@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# SANvi v0.1.1 <img src="man/figures/sanvi_draft.png" align="right" width="120" />
+# SANvi v0.1.1.9000 <img src="man/figures/sanvi_draft.png" align="right" width="120" />
 
 <!-- badges: start -->
 
