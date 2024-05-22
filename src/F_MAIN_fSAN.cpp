@@ -127,7 +127,7 @@ Rcpp::List main_vb_fSAN_cpp(arma::field<arma::colvec> Y_grouped,
       if(verbose){
         Rcpp::Rcout << "Iteration #" << ii << " - Elbo increment: " << diff << "\n";
       }
-      if(diff<0 & std::fabs(diff) > 1e-5){
+    if(((diff<0) & (std::fabs(diff) > 1e-5))){
         Rcpp::Rcout << "Warning! Iteration #" << ii << " presents an ELBO decrement!\n";
       }
       if( diff < epsilon ) {

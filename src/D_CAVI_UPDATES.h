@@ -23,7 +23,6 @@ arma::mat Update_THETAl_cpp(arma::field<arma::colvec> Y_grouped,
                             int const L,
                             int const J);
 
-
 // -----------------------------------------------------------------------------
 
 arma::mat Update_beta_dirlk_cpp(arma::field<arma::mat> XI_ijl,
