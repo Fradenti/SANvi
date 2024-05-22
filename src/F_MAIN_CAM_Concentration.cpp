@@ -187,11 +187,15 @@ Rcpp::List main_vb_cam_CP_cpp(arma::field<arma::colvec> Y_grouped,
     //XXX(ii,5) = ELBO_THETA;
     //XXX(ii,6) = ELBO_CP;
 
-    if(ii>2) {      
+    if(ii>1) {
+      double diff = (ELBO_val[ii]-ELBO_val[ii-1]);
       if(verbose){
-      Rcpp::Rcout << "Iteration #" << ii+2 << " - Elbo increment: " << (ELBO_val[ii]-ELBO_val[ii-1]) << "\n";
+      Rcpp::Rcout << "Iteration #" << ii << " - Elbo increment: " << diff << "\n";
       }
-      if(fabs(ELBO_val[ii]-ELBO_val[ii-1]) < epsilon ) {
+      if(diff<0 & std::fabs(diff) > 1e-5){
+        Rcpp::Rcout << "Warning! Iteration #" << ii << " presents an ELBO decrement!\n";
+      }
+      if( diff < epsilon ) {
         if(verbose){
           Rcpp::Rcout << "Final Elbo value: " << (ELBO_val[ii]) << "\n";
         }
@@ -202,12 +206,7 @@ Rcpp::List main_vb_cam_CP_cpp(arma::field<arma::colvec> Y_grouped,
 
   }
 
-  //  if(Q ==maxSIM){
-  //    Q = maxSIM-1;
-  //  }
-
   arma::colvec ELBO_v2 = ELBO_val.rows(1,Q);
-  //arma::mat YYY = XXX.rows(1,Q);
 
   Rcpp::List results = Rcpp::List::create(
     Rcpp::_["theta_l"]  = var_par_theta,

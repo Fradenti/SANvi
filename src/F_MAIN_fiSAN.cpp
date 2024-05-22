@@ -53,14 +53,6 @@ Rcpp::List main_vb_fiSAN_cpp(arma::field<arma::colvec> Y_grouped,
                                          K);
 
     //Rcout << "2*\n";
-
-    double ELBO_OMEGA = elbo_p_omega(beta_star_lk,
-                                     beta_lk,
-                                     L,
-                                     K) -
-      elbo_q_omega(beta_star_lk,
-                   L,
-                   K);
     //Rcout << "3*\n";
 
     // M
@@ -76,12 +68,6 @@ Rcpp::List main_vb_fiSAN_cpp(arma::field<arma::colvec> Y_grouped,
                               J,
                               K);
     //Rcout << "3.5*\n";
-
-    double ELBO_M = elbo_p_M_fiSAN(XI_ijl,
-                             RHO_jk,
-                             beta_star_lk,
-                             L, K, J) -
-      elbo_q_M(XI_ijl, J);
     //Rcout << "*\n";
 
     // THETA
@@ -98,9 +84,6 @@ Rcpp::List main_vb_fiSAN_cpp(arma::field<arma::colvec> Y_grouped,
     al = var_par_theta.col(2);
     bl = var_par_theta.col(3);
 
-    double ELBO_THETA  = elbo_p_THETA(m0, k0, a0, b0,
-                                      ml, kl, al, bl)-
-      elbo_q_THETA(ml, kl,al,bl);
     //Rcout << "*\n";
 
     // V
@@ -113,9 +96,6 @@ Rcpp::List main_vb_fiSAN_cpp(arma::field<arma::colvec> Y_grouped,
     b_vk     = var_par_v.col(1);
     E_ln_PIk = var_par_v.col(2);
 
-    double ELBO_V = elbo_p_v(a_vk, b_vk,
-                             a_tilde, b_tilde, K) -
-      elbo_q_v(a_vk, b_vk, K);
 
     // S
     RHO_jk = Update_RHOjk_cpp_fiSAN(XI_ijl,
@@ -124,23 +104,46 @@ Rcpp::List main_vb_fiSAN_cpp(arma::field<arma::colvec> Y_grouped,
                               L,
                               J,
                               K);
+    
+    double ELBO_M = elbo_p_M_fiSAN(XI_ijl,
+                                   RHO_jk,
+                                   beta_star_lk,
+                                   L, K, J) -
+                                     elbo_q_M(XI_ijl, J);
+    
+    double ELBO_THETA  = elbo_p_THETA(m0, k0, a0, b0,
+                                      ml, kl, al, bl)-
+      elbo_q_THETA(ml, kl,al,bl);
+    
+    double ELBO_V = elbo_p_v(a_vk, b_vk,
+                             a_tilde, b_tilde, K) -
+      elbo_q_v(a_vk, b_vk, K);
+    
     double ELBO_S = elbo_p_S(RHO_jk,E_ln_PIk) - elbo_q_S(RHO_jk);
 
     double  Elbo_pLIK = elbo_p_Y(Y_grouped,
                                  XI_ijl,
                                  ml,kl,al,bl,
                                  L,J);
-
+    
+    double ELBO_OMEGA = elbo_p_omega(beta_star_lk,
+                                     beta_lk, L, K) -
+                        elbo_q_omega(beta_star_lk, L, K);
+    
     ELBO_val[ii] =  Elbo_pLIK +
       ELBO_S + ELBO_M + ELBO_V + ELBO_OMEGA + ELBO_THETA;
 
 
 
-    if(ii>2) {
+    if(ii>1) {
+      double diff = (ELBO_val[ii]-ELBO_val[ii-1]);
       if(verbose){
-      Rcpp::Rcout << "Iteration #" << ii+2 << " - Elbo increment: " << (ELBO_val[ii]-ELBO_val[ii-1]) << "\n";
+        Rcpp::Rcout << "Iteration #" << ii << " - Elbo increment: " << diff << "\n";
       }
-      if(fabs(ELBO_val[ii]-ELBO_val[ii-1]) < epsilon ) {
+      if(diff<0 & std::fabs(diff) > 1e-5){
+        Rcpp::Rcout << "Warning! Iteration #" << ii << " presents an ELBO decrement!\n";
+      }
+      if( diff < epsilon ) {
         if(verbose){
           Rcpp::Rcout << "Final Elbo value: " << (ELBO_val[ii]) << "\n";
         }

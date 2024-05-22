@@ -86,7 +86,7 @@ double elbo_p_Y(arma::field<arma::colvec> Y_grouped,
   for(int j=0; j < J; j++){
     for(int l=0; l < L; l++){
 
-      arma::colvec v =   (Q[l] + 1/kl[l] + //Nj x 1
+      arma::colvec v =   (Q[l] + 1.0/kl[l] + //Nj x 1
         ( Y_grouped[j] - ml[l]) % ( Y_grouped[j] - ml[l] ) * ( al[l]/bl[l] ) );
       Z += arma::accu(XI_ijl[j].col(l) % v);
 
@@ -217,7 +217,7 @@ double elbo_p_omega(arma::mat beta_star_lk,
       E_log_DIR(beta_star_lk.col(k)); // L x K
   }
 
-  double G =  Konsts + arma::accu( E_ln_omega % (beta_lk - 1) );
+  double G =  Konsts + arma::accu( E_ln_omega % (beta_lk - 1.0) );
   return(G);
 }
 
@@ -234,7 +234,7 @@ double elbo_q_omega(arma::mat beta_star_lk,
       E_log_DIR(beta_star_lk.col(k)); // L x K
   }
 
-  double G =  Konsts + arma::accu( E_ln_omega % (beta_star_lk - 1) );
+  double G =  Konsts + arma::accu( E_ln_omega % (beta_star_lk - 1.0) );
   return(G);
 }
 

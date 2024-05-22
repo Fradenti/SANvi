@@ -8,8 +8,8 @@
 #include "B_EXP_VALUES.h"
 
 arma::mat Update_Vk_cpp(int const K,
-                        double const a_tilde,
-                        double const b_tilde,
+                        double a_tilde,
+                        double b_tilde,
                         arma::mat RHO_jk);
 
 // -----------------------------------------------------------------------------

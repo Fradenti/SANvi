@@ -48,16 +48,6 @@ Rcpp::List main_vb_fSAN_cpp(arma::field<arma::colvec> Y_grouped,
                                          J,
                                          K);
 
-    //Rcout << "2*\n";
-
-    double ELBO_OMEGA = elbo_p_omega(beta_star_lk,
-                                     beta_lk,
-                                     L,
-                                     K) -
-                                       elbo_q_omega(beta_star_lk,
-                                                    L,
-                                                    K);
-    //Rcout << "3*\n";
 
     // M
     XI_ijl = Update_XIijl_cpp_fiSAN(Y_grouped,
@@ -73,11 +63,6 @@ Rcpp::List main_vb_fSAN_cpp(arma::field<arma::colvec> Y_grouped,
                                     K);
     //Rcout << "3.5*\n";
 
-    double ELBO_M = elbo_p_M_fiSAN(XI_ijl,
-                                   RHO_jk,
-                                   beta_star_lk,
-                                   L, K, J) -
-                                     elbo_q_M(XI_ijl, J);
     //Rcout << "*\n";
 
     // THETA
@@ -94,19 +79,11 @@ Rcpp::List main_vb_fSAN_cpp(arma::field<arma::colvec> Y_grouped,
     al = var_par_theta.col(2);
     bl = var_par_theta.col(3);
 
-    double ELBO_THETA  = elbo_p_THETA(m0, k0, a0, b0,
-                                      ml, kl, al, bl)-
-                                        elbo_q_THETA(ml, kl,al,bl);
-    //Rcout << "*\n";
 
     // V
     alpha_star_k = Update_alpha_dirk_cpp(RHO_jk, // collection of  J objectes: nj*L matrices
                                          alpha_k);
 
-
-    double ELBO_PI = elbo_p_pi(alpha_star_k,  alpha_k) -
-                     elbo_q_pi(alpha_star_k);
-    //Rcout << "*\n";
 
     // S
     RHO_jk = Update_RHOjk_cpp_overCAM(XI_ijl, // collection of  J objectes: nj*L matrices
@@ -115,30 +92,45 @@ Rcpp::List main_vb_fSAN_cpp(arma::field<arma::colvec> Y_grouped,
                                     L,
                                     J,
                                     K);
-
+    
+    double ELBO_OMEGA = elbo_p_omega(beta_star_lk,
+                                     beta_lk, L, K) -
+                                       elbo_q_omega(beta_star_lk,
+                                                    L,
+                                                    K);
+    
+    double ELBO_M = elbo_p_M_fiSAN(XI_ijl,
+                                   RHO_jk,
+                                   beta_star_lk,
+                                   L, K, J) -
+                                     elbo_q_M(XI_ijl, J);
+    
+    double ELBO_PI = elbo_p_pi(alpha_star_k,  alpha_k) -
+      elbo_q_pi(alpha_star_k);
+    
     double ELBO_S = elbo_p_S_overCAM(RHO_jk,alpha_star_k) - elbo_q_S(RHO_jk);
 
     double  Elbo_pLIK = elbo_p_Y(Y_grouped,
                                  XI_ijl,
                                  ml,kl,al,bl,
                                  L,J);
-
+    double ELBO_THETA  = elbo_p_THETA(m0, k0, a0, b0,
+                                      ml, kl, al, bl)-
+                                        elbo_q_THETA(ml, kl,al,bl);
+    
     ELBO_val[ii] =  Elbo_pLIK +
       ELBO_S + ELBO_M + ELBO_PI + ELBO_OMEGA + ELBO_THETA;
 
-    //XXX(ii,0) = Elbo_pLIK;
-      //XXX(ii,1) = ELBO_S;
-      //XXX(ii,2) = ELBO_M;
-      //XXX(ii,3) = ELBO_PI;
-      //XXX(ii,4) = ELBO_OMEGA;
-      // XXX(ii,5) = ELBO_THETA;
 
-
-    if(ii>2) {
+    if(ii>1) {
+      double diff = (ELBO_val[ii]-ELBO_val[ii-1]);
       if(verbose){
-      Rcpp::Rcout << "Iteration #" << ii+2 << " - Elbo increment: " << (ELBO_val[ii]-ELBO_val[ii-1]) << "\n";
+        Rcpp::Rcout << "Iteration #" << ii << " - Elbo increment: " << diff << "\n";
       }
-      if(fabs(ELBO_val[ii]-ELBO_val[ii-1]) < epsilon ) {
+      if(diff<0 & std::fabs(diff) > 1e-5){
+        Rcpp::Rcout << "Warning! Iteration #" << ii << " presents an ELBO decrement!\n";
+      }
+      if( diff < epsilon ) {
         if(verbose){
           Rcpp::Rcout << "Final Elbo value: " << (ELBO_val[ii]) << "\n";
         }
@@ -148,7 +140,6 @@ Rcpp::List main_vb_fSAN_cpp(arma::field<arma::colvec> Y_grouped,
     }
 
   }
-  //Rcpp::Rcout << "Convergence reached in " << Q << " iterations";
 
   if(Q == maxSIM){Q = Q-1;}
 

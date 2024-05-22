@@ -1,8 +1,8 @@
 #include "D_CAVI_UPDATES.h"
 
 arma::mat Update_Vk_cpp(int const K,
-                        double const a_tilde,
-                        double const b_tilde,
+                        double  a_tilde,
+                        double  b_tilde,
                         arma::mat RHO_jk){
 
   arma::colvec mk = (arma::sum(RHO_jk,0)).t();

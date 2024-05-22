@@ -42,7 +42,7 @@ Rcpp::List main_vb_fiSAN_CP_cpp(arma::field<arma::colvec> Y_grouped,
   arma::colvec a_vk(K);
   arma::colvec b_vk(K);
   arma::colvec E_ln_PIk(K);
-  //arma::mat XXX(maxSIM,7);
+  arma::mat XXX(maxSIM,7);
   //Rcpp::Rcout << "start";
   for(int ii = 0; ii<maxSIM; ii++){
     R_CheckUserInterrupt(); 
@@ -138,16 +138,10 @@ Rcpp::List main_vb_fiSAN_CP_cpp(arma::field<arma::colvec> Y_grouped,
                                  L,J);
     //Rcpp::Rcout << "3";
 
-    double ELBO_CP = elbo_conc_par_fiSAN(conc_hyper,
-                                       S_concDP);
+    double ELBO_CP = elbo_conc_par_fiSAN(conc_hyper, S_concDP);
 
-    double ELBO_OMEGA = elbo_p_omega(beta_star_lk,
-                                     beta_lk,
-                                     L,
-                                     K) -
-                                       elbo_q_omega(beta_star_lk,
-                                                    L,
-                                                    K);
+    double ELBO_OMEGA = elbo_p_omega(beta_star_lk, beta_lk, L, K) -
+                        elbo_q_omega(beta_star_lk, L, K);
     //Rcpp::Rcout << "4";
 
     double ELBO_V = elbo_p_v_CP(a_vk, b_vk,
@@ -169,19 +163,23 @@ Rcpp::List main_vb_fiSAN_CP_cpp(arma::field<arma::colvec> Y_grouped,
 
 
 
-    //XXX(ii,0) = Elbo_pLIK;
-    //XXX(ii,1) = ELBO_S;
-    //XXX(ii,2) = ELBO_M;
-    //XXX(ii,3) = ELBO_V;
-    //XXX(ii,4) = ELBO_OMEGA;
-    //XXX(ii,5) = ELBO_THETA;
-    //XXX(ii,6) = ELBO_CP;
+    XXX(ii,0) = Elbo_pLIK;
+    XXX(ii,1) = ELBO_S;
+    XXX(ii,2) = ELBO_M;
+    XXX(ii,3) = ELBO_V;
+    XXX(ii,4) = ELBO_OMEGA;
+    XXX(ii,5) = ELBO_THETA;
+    XXX(ii,6) = ELBO_CP;
 
-    if(ii>2) {
+    if(ii>1) {
+      double diff = (ELBO_val[ii]-ELBO_val[ii-1]);
       if(verbose){
-      Rcpp::Rcout << "Iteration #" << ii+2 << " - Elbo increment: " << (ELBO_val[ii]-ELBO_val[ii-1]) << "\n";
+        Rcpp::Rcout << "Iteration #" << ii << " - Elbo increment: " << diff << "\n";
       }
-      if(fabs(ELBO_val[ii]-ELBO_val[ii-1]) < epsilon ) {
+      if(diff<0 & std::fabs(diff) > 1e-5){
+        Rcpp::Rcout << "Warning! Iteration #" << ii << " presents an ELBO decrement!\n";
+      }
+      if( diff < epsilon ) {
         if(verbose){
           Rcpp::Rcout << "Final Elbo value: " << (ELBO_val[ii]) << "\n";
         }
@@ -189,14 +187,14 @@ Rcpp::List main_vb_fiSAN_CP_cpp(arma::field<arma::colvec> Y_grouped,
         break;
       }
     }
-
+    
   }
   //Rcpp::Rcout << "Convergence reached in " << Q << " iterations";
 
   if(Q == maxSIM){Q = Q-1;}
 
   arma::colvec ELBO_v2 = ELBO_val.rows(1,Q);
-  //arma::mat YYY = XXX.rows(1,Q);
+  arma::mat YYY = XXX.rows(1,Q);
 
   Rcpp::List results = Rcpp::List::create(
     Rcpp::_["theta_l"]  = var_par_theta,
@@ -207,8 +205,8 @@ Rcpp::List main_vb_fiSAN_CP_cpp(arma::field<arma::colvec> Y_grouped,
     Rcpp::_["beta_bar_lk"] = beta_star_lk,
     Rcpp::_["a_tilde_k"] = a_vk,
     Rcpp::_["b_tilde_k"] = b_vk,
-    Rcpp::_["conc_hyper"]  = S_concDP//,
-    //Rcpp::_["components"]  = YYY
+    Rcpp::_["conc_hyper"]  = S_concDP,//,
+    Rcpp::_["components"]  = YYY
   );
   return(results);
 }
