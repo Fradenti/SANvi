@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# SANvi v0.1.1.9000 <img src="man/figures/sanvi_draft.png" align="right" width="120" />
+# SANvi v0.1.1.9000 <img src="man/figures/stickers.png" align="right" width="320" />
 
 <!-- badges: start -->
 
@@ -41,6 +41,9 @@ This is a basic example which shows you how to solve a common problem:
 library(SANvi)
 #> Loading required package: scales
 #> Loading required package: RColorBrewer
+```
+
+``` r
 # Generate example data
 set.seed(1232)
 y <- c(rnorm(100),rnorm(100,5))
@@ -60,6 +63,9 @@ cl <- estimate_clustering_vi(est)
 cl
 #> Number of estimated OCs: 2 
 #> Number of estimated DCs: 2
+```
+
+``` r
 plot(cl,palette_brewed = T)
 ```
 
@@ -88,6 +94,9 @@ aw
 #> Distributional cluster # 2 
 #>   post_mean post_var post_weight
 #> 2     4.973    0.861       0.999
+```
+
+``` r
 plot(aw)
 ```
 
@@ -101,7 +110,7 @@ imaging data. *Biometrics* 79(2), 1370–1382.
 
 D’Angelo, L., and Denti, F. (2024+). A finite-infinite shared atoms
 nested model for the Bayesian analysis of large grouped data sets.
-*Working paper*, 1–34.
+[ArXiv preprint](https://arxiv.org/html/2406.13310v1).
 
 Denti, F., Camerlenghi, F., Guindani, M., Mira, A., 2023. A Common Atoms
 Model for the Bayesian Nonparametric Analysis of Nested Data. *Journal

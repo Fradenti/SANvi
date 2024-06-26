@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# SANvi v0.1.1.9000 <img src="man/figures/sanvi_draft.png" align="right" width="120" />
+# SANvi v0.1.1.9000 <img src="man/figures/stickers.png" align="right" width="320" />
 
 
 <!-- badges: start -->
@@ -68,6 +68,6 @@ plot(aw)
 
 D’Angelo, L., Canale, A., Yu, Z., Guindani, M. (2023). Bayesian nonparametric analysis for the detection of spikes in noisy calcium imaging data. *Biometrics* 79(2), 1370–1382. \doi{10.1111/biom.13626}
 
-D’Angelo, L., and Denti, F. (2024+). A finite-infinite shared atoms nested model for the Bayesian analysis of large grouped data sets. *Working paper*, 1–34.
+D’Angelo, L., and Denti, F. (2024+). A finite-infinite shared atoms nested model for the Bayesian analysis of large grouped data sets. [ArXiv preprint](https://arxiv.org/html/2406.13310v1).
 
 Denti, F., Camerlenghi, F., Guindani, M., Mira, A., 2023. A Common Atoms Model for the Bayesian Nonparametric Analysis of Nested Data. *Journal of the American Statistical Association*. 118(541), 405–416. \doi{10.1080/01621459.2021.1933499}
