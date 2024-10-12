@@ -4,13 +4,7 @@
 #' The model uses a Dirichlet process mixture prior at the distributional level, and finite Dirichlet mixture at the observational one.
 #' 
 #' @usage 
-#' variational_fiSAN(y, group,
-#'                   maxL = 30, maxK = 20,
-#'                   m0 = 0, tau0 = .01, lambda0 = 3, gamma0 = 2,
-#'                   conc_hyperpar = c(1,1), conc_par = NULL,
-#'                   beta_bar = .005,
-#'                   epsilon = 1e-6, seed = NULL,
-#'                   maxSIM = 1e5, warmstart = TRUE, verbose = FALSE)
+#' variational_fiSAN(y, group,...)
 #'                   
 #' @param y Numerical vector of observations (required).
 #' @param group Numerical vector of the same length of \code{y}, indicating the group membership (required).
@@ -116,40 +110,42 @@
 #' set.seed(1234)
 #' y <- c( rnorm(100) ,rnorm(100,5))
 #' g <- rep( 1:2, rep(100,2))
-#' est <- variational_fiSAN( y, g, verbose = FALSE,epsilon = 1e-2)
+#' est <- variational_fiSAN( y, g)
 #'}
 variational_fiSAN <- function(y, 
-                    group,
-                    maxL = 30,
-                    maxK = 20,
-                    m0 = 0,
-                    tau0 = .01,
-                    lambda0 = 3,
-                    gamma0 = 2,
-                    conc_hyperpar = c(1,1),
-                    conc_par = NULL,
-                    beta_bar = .005,
-                    epsilon = 1e-6,
-                    seed = NULL,
-                    maxSIM = 1e5,
-                    warmstart = TRUE,
-                    verbose = FALSE){
-
-
-  L <- maxL
-  K <- maxK
+                              group,
+                              model_param = list(maxL = 30,
+                                                 maxK = 20,
+                                                 epsilon = 1e-6,
+                                                 seed = NULL,
+                                                 maxSIM = 1e5,
+                                                 warmstart = TRUE,
+                                                 verbose = FALSE),
+                              prior_param = list(m0 = 0,
+                                                 tau0 = .01,
+                                                 lambda0 = 3,
+                                                 gamma0 = 2,
+                                                 beta_bar = .005,
+                                                 alpha = NULL,
+                                                 hyp_alpha1 = 1, 
+                                                 hyp_alpha2 = 1)){
+  
+  ## maybe add autocompletion of lists when a single parameter is passed +
+  ## checks
+          
+  L <- model_param$maxL
+  K <- model_param$maxK
 
   if(length(y) != length(group)){
     stop("The number of observations and groups must match")
   }
 
-  Nj <- tapply(y,group, length)
+  Nj <- tapply(y, group, length)
   J  <- max(group)
 
-  if(is.null(seed)){seed <- round(stats::runif(1,1,10000))}
+  if(is.null(model_param$seed)){model_param$seed <- round(stats::runif(1,1,10000))}
   # random init
-  set.seed(seed)
-
+  set.seed(model_param$seed)
 
   params <- list(y = y,
                 group = group,
@@ -157,13 +153,19 @@ variational_fiSAN <- function(y,
                 J = J,
                 K = K,
                 L = L,
-                m0 = m0, tau0 = tau0,
-                lambda0 = lambda0, gamma0 = gamma0,
-                beta_bar = beta_bar,
-                epsilon = epsilon,
-                seed = seed)
+                m0 = prior_param$m0, 
+                tau0 = prior_param$tau0,
+                lambda0 = prior_param$lambda0, 
+                gamma0 = prior_param$gamma0,
+                beta_bar = prior_param$beta_bar,
+                epsilon = model_param$epsilon,
+                seed = model_param$seed)
 
-
+  conc_hyperpar <- c(prior_param$hyp_alpha1,
+                     prior_param$hyp_alpha2)
+  
+  conc_par <- c(prior_param$alpha)
+  
 
   if(!is.null(conc_par)) {
     if( !(all(conc_par>0)) ){
@@ -198,7 +200,7 @@ variational_fiSAN <- function(y,
 
 
   # random init
-  if(warmstart){
+  if(model_param$warmstart){
     ml  <- stats::kmeans(unlist(Y_grouped),centers = L, algorithm="MacQueen",
                          iter.max = 100)$centers
   }else{
@@ -241,19 +243,19 @@ variational_fiSAN <- function(y,
       J = J,
       RHO_jk = RHO_jk,
       Nj = Nj,
-      m0 = m0,
-      k0 = tau0,
-      a0 = lambda0,
-      b0 = gamma0,
+      m0 = prior_param$m0,
+      k0 = prior_param$tau0,
+      a0 = prior_param$lambda0,
+      b0 = prior_param$gamma0,
       ml = ml,
       kl = kl,
       al = lambdal,
       bl = gammal,
       conc_hyper = conc_hyperpar,
-      beta_bar = beta_bar,
-      epsilon = epsilon,
-      maxSIM = maxSIM,
-      verbose = verbose
+      beta_bar = prior_param$beta_bar,
+      epsilon = model_param$epsilon,
+      maxSIM = model_param$maxSIM,
+      verbose = model_param$verbose
     )
     end <- Sys.time()
 
@@ -268,20 +270,20 @@ variational_fiSAN <- function(y,
       J = J,
       RHO_jk = RHO_jk,
       Nj = Nj,
-      m0 = m0,
-      k0 = tau0,
-      a0 = lambda0,
-      b0 = gamma0,
+      m0 = prior_param$m0,
+      k0 = prior_param$tau0,
+      a0 = prior_param$lambda0,
+      b0 = prior_param$gamma0,
       ml = ml,
       kl = kl,
       al = lambdal,
       bl = gammal,
-      a_tilde = 1,
+      a_tilde = 1.0,
       b_tilde = params$alpha,
-      beta_bar = beta_bar,
-      epsilon = epsilon,
-      maxSIM = maxSIM,
-      verbose = verbose
+      beta_bar = prior_param$beta_bar,
+      epsilon = model_param$epsilon,
+      maxSIM = model_param$maxSIM,
+      verbose = model_param$verbose
     )
     end <- Sys.time()
 
@@ -291,7 +293,6 @@ variational_fiSAN <- function(y,
                  "sim"= results,
                  "time" = end - start)
   
-  class(output$sim) <- "fiSANvi"
   structure(output, class = c("SANvb",class(output)))
   
 }

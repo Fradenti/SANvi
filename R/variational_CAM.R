@@ -4,11 +4,7 @@
 #' The model uses Dirichlet process mixtures (DPM) at both the observational and distributional levels.
 #' 
 #' @usage 
-#' variational_CAM(y, group, maxL = 30, maxK = 20, 
-#'                 m0 = 0, tau0 = .01, lambda0 = 3, gamma0 = 2, 
-#'                 conc_hyperpar = c(1,1,1,1), conc_par = NULL, 
-#'                 epsilon = 1e-6, seed = NULL, maxSIM = 1e5, 
-#'                 warmstart = TRUE, verbose = FALSE)
+#' variational_CAM(y, group, ...)
 #'
 #' @param y Numerical vector of observations (required).
 #' @param group Numerical vector of the same length of \code{y}, indicating the group membership (required).
@@ -118,40 +114,48 @@
 #'
 #'@examples
 #' \donttest{
-#' set.seed(123)
+#' set.seed(1234)
 #' y <- c(rnorm(100),rnorm(100,5))
 #' g <- rep(1:2,rep(100,2))
-#' est <- variational_CAM(y, g, verbose = FALSE,epsilon = 1e-2)
+#' est <- variational_CAM(y, g)
 #' }
 variational_CAM = function(y,
                   group,
-                  maxL = 30,
-                  maxK = 20,
-                  m0 = 0,
-                  tau0 = .01,
-                  lambda0 = 3,
-                  gamma0 = 2,
-                  conc_hyperpar = c(1,1,1,1),
-                  conc_par = NULL,
-                  epsilon = 1e-6,
-                  seed = NULL,
-                  maxSIM = 1e5,
-                  warmstart = TRUE,
-                  verbose = FALSE){
-
-  L <- maxL
-  K <- maxK
+                  model_param = list(maxL = 30,
+                                     maxK = 20,
+                                     epsilon = 1e-6,
+                                     seed = NULL,
+                                     maxSIM = 1e5,
+                                     warmstart = TRUE,
+                                     verbose = FALSE),
+                  prior_param = list(m0 = 0,
+                                     tau0 = .01,
+                                     lambda0 = 3,
+                                     gamma0 = 2,
+                                     alpha = NULL,
+                                     beta = NULL,
+                                     hyp_alpha1 = 1, 
+                                     hyp_alpha2 = 1,
+                                     hyp_beta1 = 1, 
+                                     hyp_beta2 = 1)
+                  )
+{
+  ## maybe add autocompletion of lists when a single parameter is passed +
+  ## checks
+  
+  L <- model_param$maxL
+  K <- model_param$maxK
 
   if(length(y) != length(group)){
     stop("The number of observations and groups must match")
   }
 
-  Nj <- tapply(y,group, length)
+  Nj <- tapply(y, group, length)
   J  <- max(group)
 
-  if(is.null(seed)){seed <- round(stats::runif(1,1,10000))}
+  if(is.null(model_param$seed)){model_param$seed <- round(stats::runif(1,1,10000))}
   # random init
-  set.seed(seed)
+  set.seed(model_param$seed)
 
 
   params <- list(y = y,
@@ -160,14 +164,21 @@ variational_CAM = function(y,
                 J = J,
                 K = K,
                 L = L,
-                m0 = m0, tau0 = tau0,
-                lambda0 = lambda0, gamma0 = gamma0,
-                epsilon = epsilon,
-                seed = seed
+                m0 = prior_param$m0, 
+                tau0 = prior_param$tau0,
+                lambda0 = prior_param$lambda0, 
+                gamma0 = prior_param$gamma0,
+                epsilon = model_param$epsilon,
+                seed = model_param$seed
                 )
 
-
-
+  conc_hyperpar <- c(prior_param$hyp_alpha1,
+                    prior_param$hyp_alpha2,
+                    prior_param$hyp_beta1,
+                    prior_param$hyp_beta2)
+  
+  conc_par <- c(prior_param$alpha, prior_param$beta)
+  
   if(!is.null(conc_par)) {
     if( !(all(conc_par>0))){
       stop("Not all the specified concentration parameters are positive.")
@@ -175,11 +186,11 @@ variational_CAM = function(y,
     if( length(conc_par) < 2 ){
       stop("Please provide two values for the concentration parameters.")
     }
-      # params$alpha1 <- 1 # a tilde
-      params$alpha <- conc_par[1] # b tilde
-      # params$beta1  <- 1  # a bar
-      params$beta  <- conc_par[2]  # b bar
-      random_conc <- FALSE
+    # params$alpha1 <- 1 # a tilde
+    params$alpha <- conc_par[1] # b tilde
+    # params$beta1  <- 1  # a bar
+    params$beta  <- conc_par[2]  # b bar
+    random_conc <- FALSE
   }else if(!is.null(conc_hyperpar)) {
     if( !(all(conc_hyperpar>0) )){
       stop("Not all the specified concentration hyperparameters are positive.")
@@ -188,22 +199,22 @@ variational_CAM = function(y,
       stop("Please provide four values for the concentration hyper-parameters.")
     }
     
-      params$hyp_alpha1 <- conc_hyperpar[1]
-      params$hyp_alpha2 <- conc_hyperpar[2]
-      params$hyp_beta1  <- conc_hyperpar[3]
-      params$hyp_beta2  <- conc_hyperpar[4]
-      random_conc <- TRUE
+    params$hyp_alpha1 <- conc_hyperpar[1]
+    params$hyp_alpha2 <- conc_hyperpar[2]
+    params$hyp_beta1  <- conc_hyperpar[3]
+    params$hyp_beta2  <- conc_hyperpar[4]
+    random_conc <- TRUE
   }else{
     stop("Please provide a consistent specification for the concentration parameters")
   }
-
-
+  
+  
   Y_grouped <- list()
   for(j in 1:J){
   Y_grouped[[j]] <- y[group==j] # this is a list, each element is a vector with observations
   }
 
-  if(warmstart){
+  if(model_param$warmstart){
     ml  <- stats::kmeans(unlist(Y_grouped),
                          centers = L, 
                          algorithm="MacQueen",
@@ -246,18 +257,18 @@ variational_CAM = function(y,
      J = J,
      RHO_jk = RHO_jk,
      Nj = Nj,
-     m0 = m0,
-     k0 = tau0,
-     a0 = lambda0,
-     b0 = gamma0,
+     m0 = prior_param$m0,
+     k0 = prior_param$tau0,
+     a0 = prior_param$lambda0,
+     b0 = prior_param$gamma0,
      ml = ml,
      kl = kl,
      al = lambdal,
      bl = gammal,
      conc_hyper = conc_hyperpar,
-     epsilon = epsilon,
-     maxSIM = maxSIM,
-     verbose = verbose
+     epsilon = model_param$epsilon,
+     maxSIM =  model_param$maxSIM,
+     verbose = model_param$verbose
     )
     end <- Sys.time()
 
@@ -272,10 +283,10 @@ variational_CAM = function(y,
       J = J,
       RHO_jk = RHO_jk,
       Nj = Nj,
-      m0 = m0,
-      k0 = tau0,
-      a0 = lambda0,
-      b0 = gamma0,
+      m0 = prior_param$m0,
+      k0 = prior_param$tau0,
+      a0 = prior_param$lambda0,
+      b0 = prior_param$gamma0,
       ml = ml,
       kl = kl,
       al = lambdal,
@@ -284,9 +295,9 @@ variational_CAM = function(y,
       b_tilde = params$alpha,
       a_bar = 1,
       b_bar = params$beta,
-      epsilon = epsilon,
-      maxSIM = maxSIM,
-      verbose = verbose
+      epsilon = model_param$epsilon,
+      maxSIM =  model_param$maxSIM,
+      verbose = model_param$verbose
     )
     end <- Sys.time()
   }
@@ -296,7 +307,6 @@ variational_CAM = function(y,
                  "sim"= results,
                  "time" = end - start)
   
-  class(output$sim) <- "CAMvi"
   structure(output, class = c("SANvb",class(output)))
 
 }

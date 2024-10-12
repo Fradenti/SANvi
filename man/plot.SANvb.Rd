@@ -13,7 +13,7 @@
 \item{...}{additional graphical parameters to be passed.}
 }
 \value{
-The function plots a summary of the fitted model.
+The function plots the path followed by the ELBO.
 }
 \description{
 Plot method for objects of class \code{SANvb}. 

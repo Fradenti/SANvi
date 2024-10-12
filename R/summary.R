@@ -3,12 +3,12 @@
 #' This function estimates posterior clustering assignments based on posterior variational estimates
 #' obtained from one of the model implemented in SANvi.
 #' 
-#' @param output an object of class \code{SANvb}, the output of one of the variational functions \code{\link{variational_CAM}}, 
+#' @param object an object of class \code{SANvb}, the output of one of the variational functions \code{\link{variational_CAM}}, 
 #' \code{\link{variational_fiSAN}}, \code{\link{variational_fSAN}}.
 #' @param ordered logical, if \code{TRUE} (default), the function sorts the distributional cluster labels reflecting the 
 #' increasing values of medians of the data assigned to each DC.
 #'
-#' @return a list of class \code{clustering} containing 
+#' @return a list of class \code{SUMvb} containing 
 #' \itemize{
 #'   \item \code{obs_level}: a data frame containing the data values, their group indexes, the observational and distributional clustering assignments for each observation.
 #'   \item \code{dis_level}: a vector with the distributional clustering assignment for each unit.
@@ -28,48 +28,49 @@
 #' g <- rep(1:4,rep(200,4))
 #' 
 #' # Fitting fiSAN via variational inference
-#' est <- SANvi::variational_fiSAN(y,g,verbose = FALSE)
+#' est <- SANvi::variational_fiSAN(y,g)
 #' 
 #' # Estimate clustering assignments
-#' estimate_clustering_vi(est)
+#' summary(est)
 #' }
-estimate_clustering_vi  <- function(output, 
+#' 
+summary.SANvb  <- function(object, 
                                     ordered = TRUE){
   
-  if(!inherits(output, "SANvb")){
+  if(!inherits(object, "SANvb")){
     warning("The passed object should be of class 'SANvb'")  
   }
   
-  obs_clust <- as.numeric(factor(unlist(lapply(output$sim$XI,
+  obs_clust <- as.numeric(factor(unlist(lapply(object$sim$XI,
                                                function(x) apply(x, 1, which.max)))))
-  dist_clust <- as.numeric(factor(apply(output$sim$RHO,1,which.max)))
+  dist_clust <- as.numeric(factor(apply(object$sim$RHO,1,which.max)))
   
   if(ordered){
-    obs_clust <- unname(rank(tapply(output$params$y,
+    obs_clust <- unname(rank(tapply(object$params$y,
                                     INDEX = obs_clust,
                                     median))[obs_clust])
     
-    dist_clust <- unname(rank(tapply(output$params$y,
-                                     INDEX = rep(dist_clust,output$params$Nj),
+    dist_clust <- unname(rank(tapply(object$params$y,
+                                     INDEX = rep(dist_clust,object$params$Nj),
                                      median))[dist_clust])
   }
-  D <- data.frame(Y  = output$params$y,
-                 G  = output$params$group,
+  D <- data.frame(Y  = object$params$y,
+                 G  = object$params$group,
                  OC = obs_clust,
-                 DC = rep(dist_clust,output$params$Nj))
+                 DC = rep(dist_clust,object$params$Nj))
   
   L <- (list(obs_level = D, 
              dis_level = dist_clust))
-  structure(L,class = c("vi_clustering",class(L)))
+  structure(L,class = c("SUMvb",class(L)))
 }
 
 
 
 
-#' @name estimate_clustering_vi
+#' @name summary.SANvb
 #'
 #' @param x an object of class \code{variational_estimates}, which can be obtained from the
-#' function \code{\link{estimate_atoms_weights_vi}}.
+#' function \code{\link{summary}}.
 #' @param DC_num an integer or a vector of integers indicating which distributional clusters to plot.
 #' @param type what type of plot should be drawn (only for the left-side plot). Possible types are "boxplot", "ecdf", and "scatter". 
 #' @param palette_brewed (logical) the color palette to be used. Default is \code{R} base colors (\code{palette_brewed = FALSE}).
@@ -82,11 +83,11 @@ estimate_clustering_vi  <- function(output,
 #' @importFrom RColorBrewer brewer.pal
 #' @export
 #'
-plot.vi_clustering <- function(x,
-                               DC_num = NULL,
-                               type = c("ecdf", "boxplot", "scatter"),
-                               palette_brewed = FALSE,
-                               ...) {
+plot.SUMvb <- function(x,
+                       DC_num = NULL,
+                       type = c("ecdf", "boxplot", "scatter"),
+                       palette_brewed = FALSE,
+                       ...) {
   
   type   <- match.arg(type)
   if (is.null(DC_num)) {
@@ -205,11 +206,11 @@ plot.vi_clustering <- function(x,
   }
 }
 
-#' @name estimate_clustering_vi
+#' @name summary.SANvb
 #'
 #' @export
 #'
-print.vi_clustering <- function(x, ...){
+print.SUMvb <- function(x, ...){
   cat(paste("Number of estimated OCs:", length(unique(x$obs_level$OC))),"\n")
   cat(paste("Number of estimated DCs:",length(unique(x$dis_level))))
   invisible(x)

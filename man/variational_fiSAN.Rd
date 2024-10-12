@@ -4,13 +4,7 @@
 \alias{variational_fiSAN}
 \title{Mean Field Variational Bayes estimation of fiSAN}
 \usage{
-variational_fiSAN(y, group,
-                  maxL = 30, maxK = 20,
-                  m0 = 0, tau0 = .01, lambda0 = 3, gamma0 = 2,
-                  conc_hyperpar = c(1,1), conc_par = NULL,
-                  beta_bar = .005,
-                  epsilon = 1e-6, seed = NULL,
-                  maxSIM = 1e5, warmstart = TRUE, verbose = FALSE)
+variational_fiSAN(y, group,...)
 }
 \arguments{
 \item{y}{Numerical vector of observations (required).}
@@ -126,6 +120,6 @@ Here, the dimension \eqn{L} is fixed.
 set.seed(1234)
 y <- c( rnorm(100) ,rnorm(100,5))
 g <- rep( 1:2, rep(100,2))
-est <- variational_fiSAN( y, g, verbose = FALSE,epsilon = 1e-2)
+est <- variational_fiSAN( y, g)
 }
 }

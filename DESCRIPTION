@@ -21,7 +21,7 @@ Description: An efficient tool for fitting the nested common and shared atoms mo
             D’Angelo, Canale, Yu, Guindani (2023) <doi:10.1111/biom.13626>.
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Imports: 
     Rcpp,
     matrixStats

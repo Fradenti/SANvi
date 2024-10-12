@@ -104,27 +104,30 @@
 #' set.seed(123)
 #' y <- c(rnorm(50),rnorm(50,5))
 #' g <- rep(1:2,rep(50,2))
-#' est <- variational_fSAN(y, g, verbose = FALSE,
-#'                         epsilon = 1e-2, maxL=15, maxK=10)
+#' est <- variational_fSAN(y, g)
 #'}
 variational_fSAN <- function(y, 
                     group,
-                    maxL = 30,
-                    maxK = 20,
-                    m0 = 0,
-                    tau0 = .01,
-                    lambda0 = 3,
-                    gamma0 = 2,
-                    alpha_bar = .005,
-                    beta_bar = .005,
-                    epsilon = 1e-6,
-                    seed = NULL,
-                    maxSIM = 1e5,
-                    warmstart = TRUE,
-                    verbose = FALSE){
-
-  L <- maxL
-  K <- maxK
+                    model_param = list(maxL = 30,
+                                       maxK = 20,
+                                       epsilon = 1e-6,
+                                       seed = NULL,
+                                       maxSIM = 1e5,
+                                       warmstart = TRUE,
+                                       verbose = FALSE),
+                    prior_param = list(m0 = 0,
+                                       tau0 = .01,
+                                       lambda0 = 3,
+                                       gamma0 = 2,
+                                       alpha_bar = .005,
+                                       beta_bar = .005)
+)
+{
+  ## maybe add autocompletion of lists when a single parameter is passed +
+  ## checks
+  
+  L <- model_param$maxL
+  K <- model_param$maxK
 
 
   if(length(y) != length(group)){
@@ -135,9 +138,9 @@ variational_fSAN <- function(y,
   Nj <- tapply(y,group, length)
   J  <- max(group)
 
-  if(is.null(seed)){seed <- round(stats::runif(1,1,10000))}
+  if(is.null( model_param$seed)){ model_param$seed <- round(stats::runif(1,1,10000))}
   # random init
-  set.seed(seed)
+  set.seed( model_param$seed)
 
 
   params <- list(y = y,
@@ -146,12 +149,14 @@ variational_fSAN <- function(y,
                 J = J,
                 K = K,
                 L = L,
-                m0 = m0, tau0 = tau0,
-                lambda0 = lambda0, gamma0 = gamma0,
-                alpha_bar = alpha_bar,
-                beta_bar = beta_bar,
-                epsilon = epsilon,
-                seed = seed)
+                m0 = prior_param$m0, 
+                tau0 = prior_param$tau0,
+                lambda0 = prior_param$lambda0, 
+                gamma0 = prior_param$gamma0,
+                alpha_bar = prior_param$alpha_bar,
+                beta_bar = prior_param$beta_bar,
+                epsilon =  model_param$epsilon,
+                seed =  model_param$seed)
 
   Y_grouped <- list()
   for(j in 1:J){
@@ -160,7 +165,7 @@ variational_fSAN <- function(y,
 
 
 
-  if(warmstart){
+  if(model_param$warmstart){
     ml  <- stats::kmeans(unlist(Y_grouped),centers = L, algorithm="MacQueen",
                          iter.max = 50)$centers
   }else{
@@ -200,19 +205,19 @@ variational_fSAN <- function(y,
     J = J,
     RHO_jk = RHO_jk,
     Nj = Nj,
-    m0 = m0,
-    k0 = tau0,
-    a0 = lambda0,
-    b0 = gamma0,
+    m0 = prior_param$m0,
+    k0 = prior_param$tau0,
+    a0 = prior_param$lambda0,
+    b0 = prior_param$gamma0,
     ml = ml,
     kl = kl,
     al = lambdal,
     bl = gammal,
-    alpha_bar =  alpha_bar,
-    beta_bar = beta_bar,
-    epsilon = epsilon,
-    maxSIM = maxSIM,
-    verbose = verbose
+    alpha_bar =  prior_param$alpha_bar,
+    beta_bar =   prior_param$beta_bar,
+    epsilon = model_param$epsilon,
+    maxSIM =  model_param$maxSIM,
+    verbose = model_param$verbose
   )
   end <- Sys.time()
 
@@ -220,8 +225,7 @@ variational_fSAN <- function(y,
                  "params" = params,
                  "sim"= results,
                  "time" = end - start)
-  
-  class(output$sim) <- "fSANvi"
+
   structure(output, class = c("SANvb",class(output)))
   
 }

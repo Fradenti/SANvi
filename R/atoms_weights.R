@@ -1,13 +1,14 @@
-#' Estimate the Posterior Atoms and Weights of the Discrete Mixing Distributions
+#' Summarize the results: Estimate the Posterior Atoms and Weights of the Discrete Mixing Distributions
 #'
 #' This function estimates the posterior atoms and weights characterizing the discrete 
 #' mixing distributions using the variational estimates obtained from one of the model implemented in SANvi.
 #'
 #'
-#' @param output an object of class \code{SANvb}, which is the output of one of the variational functions \code{\link{variational_CAM}}, 
+#' @param object an object of class \code{SANvb}, which is the output of one of the variational functions \code{\link{variational_CAM}}, 
 #' \code{\link{variational_fiSAN}}, \code{\link{variational_fSAN}}.
-#'
-#' @return an object of class \code{vi_atoms_weights}, which is matrix comprising posterior means, 
+#' @param ... further arguments passed to or from other methods.
+#' 
+#' @return an object of class \code{summary_SANvb}, which is matrix comprising posterior means, 
 #' variances, and a columns for each estimated DC containing the posterior weights.
 #' 
 #' @export
@@ -23,27 +24,27 @@
 #' g <- rep(1:2,rep(100,2))
 #' 
 #' # Fitting fiSAN via variational inference
-#' est <- variational_fiSAN(y,g,verbose = FALSE)
+#' est <- variational_fiSAN(y,g)
 #' 
 #' # Estimate posterior atoms and weights
-#' estimate_atoms_weights_vi(est)
-estimate_atoms_weights_vi <- function(output){
+#' estimate_atoms_weights(est)
+estimate_atoms_weights <- function(object,...){
   
-  if(class(output$sim)[1] == "CAMvi"){
-    exp_weights = post_sb_weight(output$sim$a_bar_lk, output$sim$b_bar_lk)
+  if(object$model == "CAM"){
+    exp_weights = post_sb_weight(object$sim$a_bar_lk, object$sim$b_bar_lk)
     
-  }else   if(class(output$sim)[1] == "fSANvi" | 
-             class(output$sim)[1] == "fiSANvi"){
-    exp_weights <- apply(output$sim$beta_bar_lk,2,function(x) x/sum(x))
+  }else   if(object$model == "fSAN" | 
+             object$model == "fiSAN"){
+    exp_weights <- apply(object$sim$beta_bar_lk,2,function(x) x/sum(x))
   }else{
-    stop("Provide valid variational inference output")
+    stop("Provide valid variational inference object")
   }
   
-  exp_sigma2 <- output$sim$theta_l[,4]/(output$sim$theta_l[,3]-1)
-  exp_mu     <- output$sim$theta_l[,1]
-  ind_row  <-  unique(unlist(lapply(output$sim$XI,
+  exp_sigma2 <- object$sim$theta_l[,4]/(object$sim$theta_l[,3]-1)
+  exp_mu     <- object$sim$theta_l[,1]
+  ind_row  <-  unique(unlist(lapply(object$sim$XI,
                                     function(x) apply(x, 1, which.max))))
-  ind_col <- unique(apply(output$sim$RHO,1,which.max))
+  ind_col <- unique(apply(object$sim$RHO,1,which.max))
   
   
   W <- exp_weights[ind_row,ind_col]
@@ -60,15 +61,15 @@ estimate_atoms_weights_vi <- function(output){
     D <- D[order(D$post_mean),c(1:2,order(wmeans)+2)]
     colnames(D)[-c(1:2)] <- paste0("post_weigths_DC",1:(ncol(D)-2))
   }
-  structure(D,class = c("vi_atoms_weights",class(D)))
+  
+  structure(D,
+            class = c("SANvb_aw", object$model, class(D)))
   
 }
 
-
-#' @name estimate_atoms_weights_vi
-#'
-#' @param x an object of class \code{variational_estimates}, which can be 
-#' obtained from the function \code{\link{estimate_atoms_weights_vi}}.
+#' @name summary.SANvb
+#' 
+#' @param x an object of class \code{summary_SANvb}.
 #' @param DC_num an integer or a vector of integers indicating which distributional clusters to plot.
 #' @param lim optional value for \code{plot} method to adjust the limits of the x-axis. The atoms are plotted on a range
 #' given by \code{min(posterior means)-2, max(posterior means)+2}. Default is set to 2.
@@ -78,7 +79,7 @@ estimate_atoms_weights_vi <- function(output){
 #'
 #' @export
 #'
-plot.vi_atoms_weights <- function(x, 
+plot.SANvb_aw <- function(x, 
                                   DC_num = NULL, 
                                   lim = 2, ...) {
   
@@ -150,9 +151,9 @@ plot.vi_atoms_weights <- function(x,
   
 }
 
-
-#' @name estimate_atoms_weights_vi
-#'
+#' @name summary.SANvb
+#' 
+#' @param x an object of class \code{summary_SANvb}.
 #' @param thr argument for the \code{print()} method. It should be a small positive number, 
 #' representing a threshold. If the posterior weight of a shared atom is below the threshold, the
 #' atom is not reported.
@@ -160,7 +161,11 @@ plot.vi_atoms_weights <- function(x,
 #' 
 #' @export
 #' 
-print.vi_atoms_weights <- function(x, thr = 1e-2, ...){
+print.SANvb_aw <- function(x, thr = 1e-2, ...){
+  
+  
+  cat(paste("Clustering results for", class(x)[2] ,"\n"))
+  cat("----------------------------------\n")
   
   rows <- list()
   for(i in 1:(ncol(x)-2)){
@@ -169,7 +174,7 @@ print.vi_atoms_weights <- function(x, thr = 1e-2, ...){
   n_g <- length(rows)
   
   cat(paste("Atoms with posterior weight >", thr, "\n"))
-  cat("----------------------------------\n")
+  # cat("----------------------------------\n")
   cat(paste("Number of detected DCs:", n_g, "\n"))
   cat("----------------------------------\n")
   

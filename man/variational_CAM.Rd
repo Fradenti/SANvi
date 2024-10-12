@@ -4,11 +4,7 @@
 \alias{variational_CAM}
 \title{Mean Field Variational Bayes estimation of CAM}
 \usage{
-variational_CAM(y, group, maxL = 30, maxK = 20, 
-                m0 = 0, tau0 = .01, lambda0 = 3, gamma0 = 2, 
-                conc_hyperpar = c(1,1,1,1), conc_par = NULL, 
-                epsilon = 1e-6, seed = NULL, maxSIM = 1e5, 
-                warmstart = TRUE, verbose = FALSE)
+variational_CAM(y, group, ...)
 }
 \arguments{
 \item{y}{Numerical vector of observations (required).}
@@ -118,10 +114,10 @@ The distribution of the probabilities is \eqn{ \{\omega_{l,k}\}_{l=1}^{\infty} \
 }
 \examples{
 \donttest{
-set.seed(123)
+set.seed(1234)
 y <- c(rnorm(100),rnorm(100,5))
 g <- rep(1:2,rep(100,2))
-est <- variational_CAM(y, g, verbose = FALSE,epsilon = 1e-2)
+est <- variational_CAM(y, g)
 }
 }
 \references{

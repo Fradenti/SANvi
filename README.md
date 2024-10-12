@@ -17,11 +17,11 @@ Commit](https://img.shields.io/github/last-commit/fradenti/SANvi)](https://githu
 
 The goal of SANvi is to estimate Bayesian nested mixture models via
 variational Bayes methods. Specifically, the package implements the
-common atoms model (Denti et al., 2023), its finite version (D’Angelo et
-al., 2023), and a hybrid finite-infinite model (D’Angelo and Denti,
-2024+). All models use Gaussian mixtures with a normal-inverse-gamma
-prior distribution on the parameters. Additional functions are provided
-to help analyzing the results of the fitting procedure.
+common atoms model (Denti et al., 2023) and hybrid finite-infinite
+models (D’Angelo and Denti, 2024). All models use Gaussian mixtures with
+a normal-inverse-gamma prior distribution on the parameters. Additional
+functions are provided to help analyzing the results of the fitting
+procedure.
 
 ## Installation
 
@@ -41,9 +41,6 @@ This is a basic example which shows you how to solve a common problem:
 library(SANvi)
 #> Loading required package: scales
 #> Loading required package: RColorBrewer
-```
-
-``` r
 # Generate example data
 set.seed(1232)
 y <- c(rnorm(100),rnorm(100,5))
@@ -63,9 +60,6 @@ cl <- estimate_clustering_vi(est)
 cl
 #> Number of estimated OCs: 2 
 #> Number of estimated DCs: 2
-```
-
-``` r
 plot(cl,palette_brewed = T)
 ```
 
@@ -94,9 +88,6 @@ aw
 #> Distributional cluster # 2 
 #>   post_mean post_var post_weight
 #> 2     4.973    0.861       0.999
-```
-
-``` r
 plot(aw)
 ```
 
@@ -104,13 +95,9 @@ plot(aw)
 
 # References
 
-D’Angelo, L., Canale, A., Yu, Z., Guindani, M. (2023). Bayesian
-nonparametric analysis for the detection of spikes in noisy calcium
-imaging data. *Biometrics* 79(2), 1370–1382.
-
-D’Angelo, L., and Denti, F. (2024+). A finite-infinite shared atoms
-nested model for the Bayesian analysis of large grouped data sets.
-[ArXiv preprint](https://arxiv.org/html/2406.13310v1).
+D’Angelo, L., and Denti, F. (2024). A Finite-Infinite Shared Atoms
+Nested Model for the Bayesian Analysis of Large Grouped Data Sets.
+*Bayesian Analysis*
 
 Denti, F., Camerlenghi, F., Guindani, M., Mira, A., 2023. A Common Atoms
 Model for the Bayesian Nonparametric Analysis of Nested Data. *Journal
