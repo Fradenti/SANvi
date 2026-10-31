@@ -15,6 +15,14 @@ Commit](https://img.shields.io/github/last-commit/fradenti/SANvi)](https://githu
 (total)](https://cranlogs.r-pkg.org/badges/grand-total/SANvi?color=brightgreen)](https://www.r-pkg.org/pkg/SANvi)
 <!-- badges: end -->
 
+---
+
+[!WARNING]
+⚠️ **SANvi** has been discontinued and is no longer maintained.  
+Parts of its code have been incorporated into [**sanba**](https://github.com/fradenti/sanba). For new analyses, please consult that package’s documentation for the available models and functions. This repository is retained for reference and reproducibility.  
+   
+---
+
 The goal of SANvi is to estimate Bayesian nested mixture models via
 variational Bayes methods. Specifically, the package implements the
 common atoms model (Denti et al., 2023), its finite version (D’Angelo et
