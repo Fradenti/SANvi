@@ -17,8 +17,7 @@ Commit](https://img.shields.io/github/last-commit/fradenti/SANvi)](https://githu
 
 ---
 
-[!WARNING]
-⚠️ **SANvi** has been discontinued and is no longer maintained.  
+⚠️⚠️⚠️ **SANvi** has been discontinued and is no longer maintained.  ⚠️⚠️⚠️
 Parts of its code have been incorporated into [**sanba**](https://github.com/fradenti/sanba). For new analyses, please consult that package’s documentation for the available models and functions. This repository is retained for reference and reproducibility.  
    
 ---
